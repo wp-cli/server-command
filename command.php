@@ -9,10 +9,6 @@ class Server_Command extends WP_CLI_Command {
 	 * @synopsis [--host=<host>] [--port=<port>]
 	 */
 	function __invoke( $_, $assoc_args ) {
-		if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
-			WP_CLI::error( 'PHP 5.4 or newer is needed.' );
-		}
-
 		$defaults = array(
 			'host' => 'localhost',
 			'port' => 8080
