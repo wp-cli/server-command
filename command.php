@@ -5,6 +5,22 @@ class Server_Command extends WP_CLI_Command {
 	/**
 	 * Start a development server.
 	 *
+	 * ## OPTIONS
+	 *
+	 * --host=<host>
+	 * : The hostname to bind the server to. Default: localhost
+	 *
+	 * --port=<port>
+	 * : The port number to bind the server to. Default: 8080
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     # Make the instance available on any address (with port 8080)
+	 *     wp server --host=0.0.0.0
+	 *
+	 *     # Run on port 80 (for multisite)
+	 *     sudo wp server --host=localhost.localdomain --port=80
+	 *
 	 * @when before_wp_load
 	 * @synopsis [--host=<host>] [--port=<port>]
 	 */
