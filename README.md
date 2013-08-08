@@ -26,3 +26,7 @@ Then, just install the package:
 ```
 php composer.phar require wp-cli/server-command=dev-master
 ```
+
+### How is this different from [Whippet](https://github.com/dxw/whippet/)?
+
+The main difference is that we don't modify the `wp-config.php` file, so you can run other WP-CLI commands while the server is running.
