@@ -3,7 +3,7 @@
 
 This is a package that implements the `wp server` command.
 
-It uses the [PHP built-in server](http://php.net/manual/en/features.commandline.webserver.php) to start a development server.
+It uses the [PHP built-in server](http://php.net/manual/en/features.commandline.webserver.php) to serve a given WordPress instance.
 
 The main advantage is that you don't have to install and configure Nginx or Apache, which can be overkill if you just want to work on a theme or a plugin.
 
