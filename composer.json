@@ -1,0 +1,13 @@
+{
+	"name": "wp-cli/server-command",
+	"description": "Start a development server for WordPress",
+	"homepage": "https://github.com/wp-cli/server-command",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.4",
+		"wp-cli/wp-cli": ">=0.11"
+	},
+	"autoload": {
+		"files": [ "command.php" ]
+	}
+}
