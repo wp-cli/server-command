@@ -4,8 +4,7 @@
 	"homepage": "https://github.com/wp-cli/server-command",
 	"license": "MIT",
 	"require": {
-		"php": ">=5.4",
-		"wp-cli/wp-cli": ">=0.11"
+		"php": ">=5.4"
 	},
 	"autoload": {
 		"files": [ "command.php" ]
