@@ -36,6 +36,7 @@ class Server_Command extends WP_CLI_Command {
 			__DIR__ . '/router.php'
 		);
 
+		chdir( ABSPATH );
 		WP_CLI::launch( $cmd );
 	}
 }
