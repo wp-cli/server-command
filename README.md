@@ -30,3 +30,9 @@ php composer.phar require wp-cli/server-command=dev-master
 ### How is this different from [Whippet](https://github.com/dxw/whippet/)?
 
 The main difference is that we don't modify the `wp-config.php` file, so you can run other WP-CLI commands while the server is running.
+
+### Can I add custom rewrite rules?
+
+Yep; just write a WordPress plugin that checks `PHP_SAPI == 'cli-server'` and redirects as appropriate.
+
+For example, here's a working plugin for the Roots theme: [leoj3n/wp-server-roots-rewrites](https://github.com/leoj3n/wp-server-roots-rewrites/).
