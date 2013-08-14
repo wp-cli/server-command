@@ -1,7 +1,7 @@
 `wp server`
 ===========
 
-This is a package that implements the `wp server` command.
+This is a package that implements the `wp server` command for [WP-CLI](http://wp-cli.org).
 
 It uses the [PHP built-in server](http://php.net/manual/en/features.commandline.webserver.php) to serve a given WordPress instance.
 
@@ -25,6 +25,18 @@ Then, just install the package:
 
 ```
 php composer.phar require wp-cli/server-command=dev-master
+```
+
+### Usage
+
+Just run it:
+
+```bash
+$ wp server
+PHP 5.5.1 Development Server started at Wed Aug 14 03:34:13 2013
+Listening on http://localhost:8080
+Document root is /Users/User/wp/core
+Press Ctrl-C to quit.
 ```
 
 ### How is this different from [Whippet](https://github.com/dxw/whippet/)?
