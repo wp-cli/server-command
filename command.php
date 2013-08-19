@@ -44,9 +44,9 @@ class Server_Command extends WP_CLI_Command {
 			$docroot = dirname( $config_path );
 		}
 
-		chdir( $docroot );
+		$descriptors = array( STDIN, STDOUT, STDERR );
 
-		WP_CLI::launch( $cmd );
+		exit( proc_close( proc_open( $cmd, $descriptors, $pipes, $docroot ) ) );
 	}
 }
 
