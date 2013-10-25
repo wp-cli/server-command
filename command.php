@@ -36,9 +36,9 @@ class Server_Command extends WP_CLI_Command {
 			__DIR__ . '/router.php'
 		);
 
-		$config_path = WP_CLI::get_runner()->config_path;
+		$config_path = WP_CLI::get_runner()->project_config_path;
 
-		if ( false === $config_path ) {
+		if ( !$config_path ) {
 			$docroot = ABSPATH;
 		} else {
 			$docroot = dirname( $config_path );
