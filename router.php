@@ -6,7 +6,7 @@ WP_CLI\Router\add_filter( 'option_home', '\\WP_CLI\\Router\\option_home', 20 );
 WP_CLI\Router\add_filter( 'option_siteurl', '\\WP_CLI\\Router\\option_siteurl', 20 );
 
 $root = $_SERVER['DOCUMENT_ROOT'];
-$path = '/'. ltrim( parse_url( $_SERVER['REQUEST_URI'] )['path'], '/' );
+$path = '/'. ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
 
 if ( file_exists( $root.$path ) ) {
 	if ( is_dir( $root.$path ) && substr( $path, -1 ) !== '/' ) {
