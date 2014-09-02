@@ -14,18 +14,7 @@ The main advantage is that you don't have to install and configure Nginx or Apac
 
 ### Installation
 
-First, make sure you have the [package index](http://wp-cli.org/package-index/) configured:
-
-```
-cd ~/.wp-cli/
-php composer.phar config repositories.wp-cli composer http://wp-cli.org/package-index/
-```
-
-Then, just install the package:
-
-```
-php composer.phar require wp-cli/server-command=dev-master
-```
+See <https://github.com/wp-cli/wp-cli/wiki/Community-Packages#installing-a-package-without-composer>
 
 ### Usage
 
