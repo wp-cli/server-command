@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/router-lib.php';
 
+WP_CLI\Router\add_filter( 'got_rewrite', function() { return true; }, 20 );
 WP_CLI\Router\add_filter( 'option_home', '\\WP_CLI\\Router\\option_home', 20 );
 WP_CLI\Router\add_filter( 'option_siteurl', '\\WP_CLI\\Router\\option_siteurl', 20 );
 
