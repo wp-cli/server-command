@@ -28,7 +28,7 @@ Document root is /Users/User/wp/core
 Press Ctrl-C to quit.
 ```
 
-### How is this different from [Whippet](https://github.com/dxw/whippet/)?
+### How is this different from [Whippet](https://github.com/dxw/whippet-server)?
 
 The main difference is that we don't modify the `wp-config.php` file, so you can run other WP-CLI commands while the server is running.
 
