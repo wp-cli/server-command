@@ -36,12 +36,10 @@ class Server_Command extends WP_CLI_Command {
 			__DIR__ . '/router.php'
 		);
 
-		$config_path = WP_CLI::get_runner()->project_config_path;
+		$docroot = WP_CLI::get_config()['path'];
 
-		if ( !$config_path ) {
+		if ( !$docroot ) {
 			$docroot = ABSPATH;
-		} else {
-			$docroot = dirname( $config_path );
 		}
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
