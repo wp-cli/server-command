@@ -1,32 +1,11 @@
+**IMPORTANT:** The server command now comes [bundled with WP-CLI](https://github.com/wp-cli/wp-cli/pull/1858). This repository is kept for historical purposes only.
+
 `wp server`
 ===========
-
-This is a package that implements the `wp server` command for [WP-CLI](http://wp-cli.org).
 
 It uses the [PHP built-in server](http://php.net/manual/en/features.commandline.webserver.php) to serve a given WordPress instance.
 
 The main advantage is that you don't have to install and configure Nginx or Apache, which can be overkill if you just want to work on a theme or a plugin.
-
-### Requirements
-
-* PHP 5.4 or newer
-* WordPress 3.5 or newer
-
-### Installation
-
-See <https://github.com/wp-cli/wp-cli/wiki/Community-Packages#installing-a-package-without-composer>
-
-### Usage
-
-Just run it:
-
-```bash
-$ wp server
-PHP 5.5.1 Development Server started at Wed Aug 14 03:34:13 2013
-Listening on http://localhost:8080
-Document root is /Users/User/wp/core
-Press Ctrl-C to quit.
-```
 
 ### How is this different from [Whippet](https://github.com/dxw/whippet-server)?
 
