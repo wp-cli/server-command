@@ -1,12 +1,32 @@
+
 {
-	"name": "wp-cli/server-command",
-	"description": "Start a development server for WordPress",
-	"homepage": "https://github.com/wp-cli/server-command",
-	"license": "MIT",
-	"require": {
-		"php": ">=5.4"
-	},
-	"autoload": {
-		"files": [ "command.php" ]
-	}
+    "name": "wp-cli/server-command",
+    "description": "Launch PHP's built-in web server for this specific WordPress installation.",
+    "type": "wp-cli-package",
+    "homepage": "https://github.com/wp-cli/server-command",
+    "support": {
+        "issues": "https://github.com/wp-cli/server-command/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Bachhuber",
+            "email": "daniel@runcommand.io",
+            "homepage": "https://runcommand.io"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": { "": "src/" },
+        "files": [ "server-command.php" ]
+    },
+    "require": {},
+    "require-dev": {
+        "behat/behat": "~2.5"
+    },
+    "extra": {
+        "commands": [
+            "server"
+        ]
+    }
 }
