@@ -55,11 +55,6 @@ class Server_Command extends WP_CLI_Command {
 	 * @when before_wp_load
 	 */
 	function __invoke( $_, $assoc_args ) {
-		$min_version = '5.4';
-		if ( version_compare( PHP_VERSION, $min_version, '<' ) ) {
-			WP_CLI::error( "The `wp server` command requires PHP $min_version or newer." );
-		}
-
 		$defaults = array(
 			'host' => 'localhost',
 			'port' => 8080,
