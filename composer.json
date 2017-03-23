@@ -20,11 +20,16 @@
         "psr-4": { "": "src/" },
         "files": [ "server-command.php" ]
     },
-    "require": {},
+    "require": {
+        "wp-cli/wp-cli": "dev-master"
+    },
     "require-dev": {
         "behat/behat": "~2.5"
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        },
         "commands": [
             "server"
         ]
