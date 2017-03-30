@@ -19,7 +19,7 @@ if ( file_exists( __DIR__ . '/utils.php' ) ) {
 		if ( ! empty( $composer->autoload->files ) ) {
 			$contents = 'require:' . PHP_EOL;
 			foreach( $composer->autoload->files as $file ) {
-				$contents .= '  - ' . dirname( dirname( dirname( __FILE__ ) ) ) . '/' . $file . PHP_EOL;
+				$contents .= '  - ' . dirname( dirname( dirname( __FILE__ ) ) ) . '/' . $file;
 			}
 			@mkdir( sys_get_temp_dir() . '/wp-cli-package-test/' );
 			$project_config = sys_get_temp_dir() . '/wp-cli-package-test/config.yml';
@@ -178,9 +178,6 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 	 * @param array $parameters context parameters (set them up through behat.yml)
 	 */
 	public function __construct( array $parameters ) {
-		if ( getenv( 'WP_CLI_TEST_DBHOST' ) ) {
-			self::$db_settings['dbhost'] = getenv( 'WP_CLI_TEST_DBHOST' );
-		}
 		$this->drop_db();
 		$this->set_cache_dir();
 		$this->variables['CORE_CONFIG_SETTINGS'] = Utils\assoc_args_to_str( self::$db_settings );
@@ -318,8 +315,7 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 
 	public function create_config( $subdir = '' ) {
 		$params = self::$db_settings;
-		// Replaces all characters that are not alphanumeric or an underscore into an underscore.
-		$params['dbprefix'] = $subdir ? preg_replace( '#[^a-zA-Z\_0-9]#', '_', $subdir ) : 'wp_';
+		$params['dbprefix'] = $subdir ?: 'wp_';
 
 		$params['skip-salts'] = true;
 		$this->proc( 'wp core config', $params, $subdir )->run_check();

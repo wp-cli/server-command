@@ -30,13 +30,14 @@ matrix:
       env: WP_VERSION=latest
     - php: 5.6
       env: WP_VERSION=trunk
-    - php: 5.4
+    - php: 5.3
       env: WP_VERSION=latest
 
 before_install:
   - phpenv config-rm xdebug.ini
 
 install:
+  - composer require wp-cli/wp-cli:dev-master
   - composer install
   - bash bin/install-package-tests.sh
 
