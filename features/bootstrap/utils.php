@@ -35,7 +35,11 @@ function extract_from_phar( $path ) {
 
 function load_dependencies() {
 	if ( inside_phar() ) {
-		require WP_CLI_ROOT . '/vendor/autoload.php';
+		if ( file_exists( WP_CLI_ROOT . '/vendor/autoload.php' ) ) {
+			require WP_CLI_ROOT . '/vendor/autoload.php';
+		} elseif ( file_exists( dirname( dirname( WP_CLI_ROOT ) ) . '/autoload.php' ) ) {
+			require dirname( dirname( WP_CLI_ROOT ) ) . '/autoload.php';
+		}
 		return;
 	}
 
@@ -822,4 +826,17 @@ function parse_str_to_argv( $arguments ) {
 		return $arg;
 	}, $argv );
 	return $argv;
+}
+
+/**
+ * Locale-independent version of basename()
+ *
+ * @access public
+ *
+ * @param string $path
+ * @param string $suffix
+ * @return string
+ */
+function basename( $path, $suffix = '' ) {
+	return urldecode( \basename( str_replace( array( '%2F', '%5C' ), '/', urlencode( $path ) ), $suffix ) );
 }
