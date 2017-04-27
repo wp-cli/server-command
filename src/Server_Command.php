@@ -76,17 +76,13 @@ class Server_Command extends WP_CLI_Command {
 		}
 
 		// Get the path to the router file
-		if ( WP_CLI\Utils\inside_phar() ) {
-			$router_path = WP_CLI_ROOT . '/vendor/wp-cli/server-command/router.php';
+		$router_path = WP_CLI_ROOT . '/vendor/wp-cli/server-command/router.php';
+		if ( ! file_exists( $router_path ) ) {
+			// server command must've been built with vendor/wp-cli/wp-cli
+			$router_path = WP_CLI_ROOT . '/../../../router.php';
 			if ( ! file_exists( $router_path ) ) {
-				// server command must've been built with vendor/wp-cli/wp-cli
-				$router_path = WP_CLI_ROOT . '/../../../router.php';
-				if ( ! file_exists( $router_path ) ) {
-					WP_CLI::error( "Couldn't find router.php" );
-				}
+				WP_CLI::error( "Couldn't find router.php" );
 			}
-		} else {
-			$router_path = dirname( dirname( __FILE__ ) ) . '/router.php';
 		}
 		$cmd = \WP_CLI\Utils\esc_cmd( '%s -S %s -t %s -c %s %s',
 			WP_CLI::get_php_binary(),
