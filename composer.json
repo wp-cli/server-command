@@ -1,4 +1,3 @@
-
 {
     "name": "wp-cli/server-command",
     "description": "Launch PHP's built-in web server for this specific WordPress installation.",
@@ -18,8 +17,12 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
-        "psr-4": { "": "src/" },
-        "files": [ "server-command.php" ]
+        "psr-4": {
+            "": "src/"
+        },
+        "files": [
+            "server-command.php"
+        ]
     },
     "require": {
         "wp-cli/wp-cli": "*"
@@ -33,6 +36,7 @@
         },
         "commands": [
             "server"
-        ]
+        ],
+        "bundled": true
     }
 }
