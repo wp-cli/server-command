@@ -62,9 +62,11 @@ Uses `php -S` to launch a web server serving the WordPress webroot.
 
 ## Installing
 
-Installing this package requires WP-CLI v0.23.0 or greater. Update to the latest stable release with `wp cli update`.
+This package is included with WP-CLI itself, no additional installation necessary.
 
-Once you've done so, you can install this package with `wp package install wp-cli/server-command`.
+To install the latest version of this package over what's included in WP-CLI, run:
+
+    wp package install git@github.com:wp-cli/server-command.git
 
 ## Contributing
 
