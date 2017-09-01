@@ -32,6 +32,7 @@ class Server_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Make the instance available on any address (with port 8080)
+	 *     $ wp server
 	 *     $ wp server --host=0.0.0.0
 	 *     PHP 5.6.9 Development Server started at Tue May 24 01:27:11 2016
 	 *     Listening on http://0.0.0.0:8080
