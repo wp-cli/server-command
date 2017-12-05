@@ -3,7 +3,7 @@
 class Server_Command extends WP_CLI_Command {
 
 	/**
-	 * Launch PHP's built-in web server for this specific WordPress installation.
+	 * Launches PHP's built-in web server for this specific WordPress installation.
 	 *
 	 * Uses `php -S` to launch a web server serving the WordPress webroot.
 	 * <http://php.net/manual/en/features.commandline.webserver.php>
