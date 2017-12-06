@@ -1,6 +1,6 @@
 {
     "name": "wp-cli/server-command",
-    "description": "Launch PHP's built-in web server for this specific WordPress installation.",
+    "description": "Launches PHP's built-in web server for a specific WordPress installation.",
     "type": "wp-cli-package",
     "homepage": "https://github.com/wp-cli/server-command",
     "support": {

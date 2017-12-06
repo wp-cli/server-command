@@ -1,7 +1,7 @@
 wp-cli/server-command
 =====================
 
-Launch PHP's built-in web server for this specific WordPress installation.
+Launches PHP's built-in web server for a specific WordPress installation.
 
 [![Build Status](https://travis-ci.org/wp-cli/server-command.svg?branch=master)](https://travis-ci.org/wp-cli/server-command)
 
