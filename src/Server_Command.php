@@ -8,6 +8,9 @@ class Server_Command extends WP_CLI_Command {
 	 * Uses `php -S` to launch a web server serving the WordPress webroot.
 	 * <http://php.net/manual/en/features.commandline.webserver.php>
 	 *
+	 * Importantly, PHP's built-in web server doesn't support `.htaccess` files.
+	 * If this is a requirement, please use a more advanced web server.
+	 *
 	 * ## OPTIONS
 	 *
 	 * [--host=<host>]
