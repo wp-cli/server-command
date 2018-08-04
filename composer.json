@@ -1,11 +1,8 @@
 {
     "name": "wp-cli/server-command",
-    "description": "Launches PHP's built-in web server for a specific WordPress installation.",
     "type": "wp-cli-package",
+    "description": "Launches PHP's built-in web server for a specific WordPress installation.",
     "homepage": "https://github.com/wp-cli/server-command",
-    "support": {
-        "issues": "https://github.com/wp-cli/server-command/issues"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -14,8 +11,25 @@
             "homepage": "https://runcommand.io"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "require": {
+        "wp-cli/wp-cli": "^2"
+    },
+    "require-dev": {
+        "wp-cli/wp-cli-tests": "^0"
+    },
+    "config": {
+        "sort-packages": true,
+        "process-timeout": 7200
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "bundled": true,
+        "commands": [
+            "server"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "": "src/"
@@ -24,19 +38,22 @@
             "server-command.php"
         ]
     },
-    "require": {
-        "wp-cli/wp-cli": "*"
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "behat": "run-behat-tests",
+        "lint": "run-linter-tests",
+        "phpcs": "run-phpcs-tests",
+        "phpunit": "run-php-unit-tests",
+        "prepare-tests": "install-package-tests",
+        "test": [
+            "@lint",
+            "@phpcs",
+            "@phpunit",
+            "@behat"
+        ]
     },
-    "require-dev": {
-        "behat/behat": "~2.5"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.x-dev"
-        },
-        "commands": [
-            "server"
-        ],
-        "bundled": true
+    "support": {
+        "issues": "https://github.com/wp-cli/server-command/issues"
     }
 }
