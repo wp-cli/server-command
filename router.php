@@ -91,6 +91,7 @@ add_filter( 'option_siteurl', function ( $url ) {
 	return $url;
 }, 20 );
 
+$_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
 $root = $_SERVER['DOCUMENT_ROOT'];
 $path = '/'. ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
 
