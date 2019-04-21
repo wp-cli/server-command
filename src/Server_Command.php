@@ -79,7 +79,7 @@ class Server_Command extends WP_CLI_Command {
 		}
 
 		// Get the path to the router file
-		$command_root = WP_CLI\Utils\phar_safe_path( dirname( __DIR__ ) );
+		$command_root = Utils\phar_safe_path( dirname( __DIR__ ) );
 		$router_path  = $command_root . '/router.php';
 		if ( ! file_exists( $router_path ) ) {
 			WP_CLI::error( "Couldn't find router.php" );
