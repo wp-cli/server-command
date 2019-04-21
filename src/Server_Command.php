@@ -1,5 +1,7 @@
 <?php
 
+use WP_CLI\Utils;
+
 class Server_Command extends WP_CLI_Command {
 
 	/**
@@ -57,21 +59,21 @@ class Server_Command extends WP_CLI_Command {
 	 *
 	 * @when before_wp_load
 	 */
-	function __invoke( $_, $assoc_args ) {
-		$defaults = array(
-			'host' => 'localhost',
-			'port' => 8080,
+	public function __invoke( $_, $assoc_args ) {
+		$defaults   = array(
+			'host'    => 'localhost',
+			'port'    => 8080,
 			'docroot' => ! is_null( WP_CLI::get_runner()->config['path'] ) ? WP_CLI::get_runner()->config['path'] : false,
-			'config' => get_cfg_var( 'cfg_file_path' )
+			'config'  => get_cfg_var( 'cfg_file_path' ),
 		);
 		$assoc_args = array_merge( $defaults, $assoc_args );
 
 		$docroot = $assoc_args['docroot'];
 
-		if ( !$docroot ) {
+		if ( ! $docroot ) {
 			$config_path = WP_CLI::get_runner()->project_config_path;
 
-			if ( !$config_path ) {
+			if ( ! $config_path ) {
 				$docroot = ABSPATH;
 			} else {
 				$docroot = dirname( $config_path );
@@ -79,27 +81,28 @@ class Server_Command extends WP_CLI_Command {
 		}
 
 		// Get the path to the router file
-		$command_root = WP_CLI\Utils\phar_safe_path( dirname( __DIR__ ) );
-		$router_path = $command_root . '/router.php';
+		$command_root = Utils\phar_safe_path( dirname( __DIR__ ) );
+		$router_path  = $command_root . '/router.php';
 		if ( ! file_exists( $router_path ) ) {
 			WP_CLI::error( "Couldn't find router.php" );
 		}
-		$cmd = \WP_CLI\Utils\esc_cmd( '%s -S %s -t %s -c %s %s',
+		$cmd = Utils\esc_cmd(
+			'%s -S %s -t %s -c %s %s',
 			WP_CLI::get_php_binary(),
 			$assoc_args['host'] . ':' . $assoc_args['port'],
 			$docroot,
 			$assoc_args['config'],
-			\WP_CLI\Utils\extract_from_phar( $router_path )
+			Utils\extract_from_phar( $router_path )
 		);
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
 
 		// https://bugs.php.net/bug.php?id=60181
 		$options = array();
-		if ( \WP_CLI\Utils\is_windows() ) {
-			$options["bypass_shell"] = TRUE;
+		if ( Utils\is_windows() ) {
+			$options['bypass_shell'] = true;
 		}
 
-		exit( proc_close( proc_open( $cmd, $descriptors, $pipes, NULL, NULL, $options ) ) );
+		exit( proc_close( proc_open( $cmd, $descriptors, $pipes, null, null, $options ) ) );
 	}
 }
