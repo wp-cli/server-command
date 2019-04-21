@@ -1,5 +1,5 @@
 <?php
-use WP_CLI\Utils
+use WP_CLI\Utils;
 
 class Server_Command extends WP_CLI_Command {
 
