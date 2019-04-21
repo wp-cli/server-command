@@ -11,7 +11,8 @@ namespace WP_CLI\Router;
 function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
 	global $wp_filter, $merged_filters;
 
-	$idx                                    = _wp_filter_build_unique_id( $tag, $function_to_add, $priority );
+	$idx = _wp_filter_build_unique_id( $tag, $function_to_add, $priority );
+
 	$wp_filter[ $tag ][ $priority ][ $idx ] = array(
 		'function'      => $function_to_add,
 		'accepted_args' => $accepted_args,
