@@ -4,9 +4,9 @@ if ( ! class_exists( 'WP_CLI' ) ) {
 	return;
 }
 
-$autoload = dirname( __FILE__ ) . '/vendor/autoload.php';
-if ( file_exists( $autoload ) ) {
-	require_once $autoload;
+$wpcli_server_autoloader = dirname( __FILE__ ) . '/vendor/autoload.php';
+if ( file_exists( $wpcli_server_autoloader ) ) {
+	require_once $wpcli_server_autoloader;
 }
 
 WP_CLI::add_command( 'server', 'Server_Command', array(
