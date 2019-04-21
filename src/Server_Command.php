@@ -91,7 +91,7 @@ class Server_Command extends WP_CLI_Command {
 			$assoc_args['host'] . ':' . $assoc_args['port'],
 			$docroot,
 			$assoc_args['config'],
-			\WP_CLI\Utils\extract_from_phar( $router_path )
+			Utils\extract_from_phar( $router_path )
 		);
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
