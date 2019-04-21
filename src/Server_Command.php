@@ -84,7 +84,7 @@ class Server_Command extends WP_CLI_Command {
 		if ( ! file_exists( $router_path ) ) {
 			WP_CLI::error( "Couldn't find router.php" );
 		}
-		$cmd = \WP_CLI\Utils\esc_cmd(
+		$cmd = Utils\esc_cmd(
 			'%s -S %s -t %s -c %s %s',
 			WP_CLI::get_php_binary(),
 			$assoc_args['host'] . ':' . $assoc_args['port'],
