@@ -13,6 +13,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
 
 	$idx = _wp_filter_build_unique_id( $tag, $function_to_add, $priority );
 
+	// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 	$wp_filter[ $tag ][ $priority ][ $idx ] = array(
 		'function'      => $function_to_add,
 		'accepted_args' => $accepted_args,
@@ -70,6 +71,7 @@ function _wp_filter_build_unique_id( $tag, $function, $priority ) {
 }
 
 function _get_full_host( $url ) {
+  // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 	$parsed_url = parse_url( $url );
 
 	$host = $parsed_url['host'];
@@ -112,7 +114,8 @@ add_filter(
 
 $_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
 $wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
-$path                   = '/' . ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
+// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
+$path = '/' . ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
 
 if ( file_exists( $wpcli_server_root . $path ) ) {
 	if ( is_dir( $wpcli_server_root . $path ) && substr( $path, -1 ) !== '/' ) {
