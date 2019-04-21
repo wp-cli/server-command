@@ -97,7 +97,7 @@ class Server_Command extends WP_CLI_Command {
 
 		// https://bugs.php.net/bug.php?id=60181
 		$options = array();
-		if ( \WP_CLI\Utils\is_windows() ) {
+		if ( Utils\is_windows() ) {
 			$options['bypass_shell'] = true;
 		}
 
