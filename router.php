@@ -71,7 +71,7 @@ function _wp_filter_build_unique_id( $tag, $function, $priority ) {
 }
 
 function _get_full_host( $url ) {
-  // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
+	// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 	$parsed_url = parse_url( $url );
 
 	$host = $parsed_url['host'];
