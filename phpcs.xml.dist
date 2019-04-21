@@ -46,9 +46,14 @@
 		<properties>
 			<property name="prefixes" type="array">
 				<element value="WP_CLI\Server"/><!-- Namespaces. -->
+				<element value="WP_CLI\Server\Router"/><!-- Namespaces. -->
 				<element value="wpcli_server"/><!-- Global variables and such. -->
 			</property>
 		</properties>
 	</rule>
-
+	
+	<!-- Exclude existing classes from the prefix rule as it would break BC to prefix them now. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound">
+		<exclude-pattern>*/src/Server_Command\.php$</exclude-pattern>
+	</rule>
 </ruleset>
