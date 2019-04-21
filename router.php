@@ -1,7 +1,7 @@
 <?php
 // Used by `wp server` to route requests.
 
-namespace WP_CLI\Router;
+namespace WP_CLI\Server\Router;
 
 /**
  * This is a copy of WordPress's add_filter() function.
@@ -69,7 +69,7 @@ function _get_full_host( $url ) {
 	$parsed_url = parse_url( $url );
 
 	$host = $parsed_url['host'];
-	if ( isset( $parsed_url['port'] ) && $parsed_url['port'] != 80 ) {
+	if ( isset( $parsed_url['port'] ) && 80 !== $parsed_url['port'] ) {
 		$host .= ':' . $parsed_url['port'];
 	}
 
@@ -80,7 +80,7 @@ function _get_full_host( $url ) {
 add_filter(
 	'option_home',
 	function ( $url ) {
-		$GLOBALS['_wp_cli_original_url'] = $url;
+		$GLOBALS['wpcli_server_original_url'] = $url;
 
 		return 'http://' . $_SERVER['HTTP_HOST'];
 	},
@@ -90,14 +90,14 @@ add_filter(
 add_filter(
 	'option_siteurl',
 	function ( $url ) {
-		if ( ! isset( $GLOBALS['_wp_cli_original_url'] ) ) {
+		if ( ! isset( $GLOBALS['wpcli_server_original_url'] ) ) {
 			get_option( 'home' );  // trigger the option_home filter
 		}
 
-		$home_url_host = _get_full_host( $GLOBALS['_wp_cli_original_url'] );
+		$home_url_host = _get_full_host( $GLOBALS['wpcli_server_original_url'] );
 		$site_url_host = _get_full_host( $url );
 
-		if ( $site_url_host == $home_url_host ) {
+		if ( $site_url_host === $home_url_host ) {
 			$url = str_replace( $site_url_host, $_SERVER['HTTP_HOST'], $url );
 		}
 
@@ -107,22 +107,22 @@ add_filter(
 );
 
 $_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
-$root                   = $_SERVER['DOCUMENT_ROOT'];
+$wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
 $path                   = '/' . ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
 
-if ( file_exists( $root . $path ) ) {
-	if ( is_dir( $root . $path ) && substr( $path, -1 ) !== '/' ) {
+if ( file_exists( $wpcli_server_root . $path ) ) {
+	if ( is_dir( $wpcli_server_root . $path ) && substr( $path, -1 ) !== '/' ) {
 		header( "Location: $path/" );
 		exit;
 	}
 
 	if ( strpos( $path, '.php' ) !== false ) {
-		chdir( dirname( $root . $path ) );
-		require_once $root . $path;
+		chdir( dirname( $wpcli_server_root . $path ) );
+		require_once $wpcli_server_root . $path;
 	} else {
 		return false;
 	}
 } else {
-	chdir( $root );
+	chdir( $wpcli_server_root );
 	require_once 'index.php';
 }
