@@ -115,17 +115,17 @@ add_filter(
 $_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
 $wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
 // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
-$path = '/' . ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
+$wpcli_server_path = '/' . ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
 
-if ( file_exists( $wpcli_server_root . $path ) ) {
-	if ( is_dir( $wpcli_server_root . $path ) && substr( $path, -1 ) !== '/' ) {
-		header( "Location: $path/" );
+if ( file_exists( $wpcli_server_root . $wpcli_server_path ) ) {
+	if ( is_dir( $wpcli_server_root . $wpcli_server_path ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
+		header( "Location: $wpcli_server_path/" );
 		exit;
 	}
 
-	if ( strpos( $path, '.php' ) !== false ) {
-		chdir( dirname( $wpcli_server_root . $path ) );
-		require_once $wpcli_server_root . $path;
+	if ( strpos( $wpcli_server_path, '.php' ) !== false ) {
+		chdir( dirname( $wpcli_server_root . $wpcli_server_path ) );
+		require_once $wpcli_server_root . $wpcli_server_path;
 	} else {
 		return false;
 	}
