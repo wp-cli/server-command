@@ -51,7 +51,10 @@ function _wp_filter_build_unique_id( $tag, $function, $priority ) {
 				if ( false === $priority ) {
 					return false;
 				}
-				$obj_idx                  .= isset( $wp_filter[ $tag ][ $priority ] ) ? count( (array) $wp_filter[ $tag ][ $priority ] ) : $filter_id_count;
+				$obj_idx .= isset( $wp_filter[ $tag ][ $priority ] )
+					? count( (array) $wp_filter[ $tag ][ $priority ] )
+					: $filter_id_count;
+
 				$function[0]->wp_filter_id = $filter_id_count;
 				++$filter_id_count;
 			} else {
