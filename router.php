@@ -1,7 +1,7 @@
 <?php
 // Used by `wp server` to route requests.
 
-namespace WP_CLI\Server\Router;
+namespace WP_CLI\Router;
 
 /**
  * This is a copy of WordPress's add_filter() function.
