@@ -46,7 +46,7 @@ class Server_Command extends WP_CLI_Command {
 	 *     # Run on port 80 (for multisite)
 	 *     $ wp server --host=localhost.localdomain --port=80
 	 *     PHP 5.6.9 Development Server started at Tue May 24 01:30:06 2016
-	 *     Listening on http://localhost1.localdomain1:8080
+	 *     Listening on http://localhost1.localdomain1:80
 	 *     Document root is /
 	 *     Press Ctrl-C to quit.
 	 *
