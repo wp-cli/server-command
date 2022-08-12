@@ -4,6 +4,7 @@ Feature: Serve WordPress locally
   Scenario: Vanilla install
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8181`
+    And I run `wp option set blogdescription 'Just another WordPress site'`
 
     When I run `curl -sS localhost:8181`
     Then STDOUT should contain:
