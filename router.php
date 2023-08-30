@@ -27,28 +27,28 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *
  * We duplicate it because WordPress is not loaded yet.
  */
-function _wp_filter_build_unique_id( $tag, $function, $priority ) {
+function _wp_filter_build_unique_id( $tag, $callback, $priority ) {
 	global $wp_filter;
 	static $filter_id_count = 0;
 
-	if ( is_string( $function ) ) {
-		return $function;
+	if ( is_string( $callback ) ) {
+		return $callback;
 	}
 
-	if ( is_object( $function ) ) {
+	if ( is_object( $callback ) ) {
 		// Closures are currently implemented as objects
-		$function = array( $function, '' );
+		$callback = array( $callback, '' );
 	} else {
-		$function = (array) $function;
+		$callback = (array) $callback;
 	}
 
-	if ( is_object( $function[0] ) ) {
+	if ( is_object( $callback[0] ) ) {
 		// Object Class Calling
 		if ( function_exists( 'spl_object_hash' ) ) {
-			return spl_object_hash( $function[0] ) . $function[1];
+			return spl_object_hash( $callback[0] ) . $callback[1];
 		} else {
-			$obj_idx = get_class( $function[0] ) . $function[1];
-			if ( ! isset( $function[0]->wp_filter_id ) ) {
+			$obj_idx = get_class( $callback[0] ) . $callback[1];
+			if ( ! isset( $callback[0]->wp_filter_id ) ) {
 				if ( false === $priority ) {
 					return false;
 				}
@@ -56,17 +56,17 @@ function _wp_filter_build_unique_id( $tag, $function, $priority ) {
 					? count( (array) $wp_filter[ $tag ][ $priority ] )
 					: $filter_id_count;
 
-				$function[0]->wp_filter_id = $filter_id_count;
+				$callback[0]->wp_filter_id = $filter_id_count;
 				++$filter_id_count;
 			} else {
-				$obj_idx .= $function[0]->wp_filter_id;
+				$obj_idx .= $callback[0]->wp_filter_id;
 			}
 
 			return $obj_idx;
 		}
-	} elseif ( is_string( $function[0] ) ) {
+	} elseif ( is_string( $callback[0] ) ) {
 		// Static Calling
-		return $function[0] . '::' . $function[1];
+		return $callback[0] . '::' . $callback[1];
 	}
 }
 
