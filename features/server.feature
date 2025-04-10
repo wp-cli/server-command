@@ -8,9 +8,9 @@ Feature: Serve WordPress locally
 
     When I run `curl -sS localhost:8181`
     Then STDOUT should contain:
-    """
-    Just another WordPress site
-    """
+      """
+      Just another WordPress site
+      """
 
     When I run `curl -sS localhost:8181/license.txt > /tmp/license.txt`
     And I run `cmp /tmp/license.txt license.txt`
