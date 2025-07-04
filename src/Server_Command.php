@@ -103,6 +103,7 @@ class Server_Command extends WP_CLI_Command {
 			$options['bypass_shell'] = true;
 		}
 
+		// @phpstan-ignore argument.type
 		exit( proc_close( proc_open( $cmd, $descriptors, $pipes, null, null, $options ) ) );
 	}
 }
