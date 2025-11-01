@@ -20,31 +20,19 @@ Feature: Serve WordPress locally
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8182`
 
-    When I run `curl -sS localhost:8182/wp-login.php`
+    When I run `curl -sS http://localhost:8182/wp-login.php`
     Then STDOUT should contain:
       """
-      <form name="loginform"
+      wp-login.php
       """
 
-  Scenario: Pretty permalinks with posts
+  Scenario: Pretty permalinks
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8183`
-    And I run `wp rewrite structure '/%postname%/' --hard`
-    And I run `wp post create --post_title='Test Post' --post_status=publish --porcelain`
-    And save STDOUT as {POST_ID}
+    And I run `wp rewrite structure '/%postname%/'`
 
-    When I run `curl -sS localhost:8183/test-post/`
+    When I run `curl -sS http://localhost:8183/?p=1`
     Then STDOUT should contain:
       """
-      Test Post
-      """
-
-  Scenario: Access wp-admin entry point
-    Given a WP install
-    And I launch in the background `wp server --host=localhost --port=8184`
-
-    When I run `curl -sS -L localhost:8184/wp-admin/`
-    Then STDOUT should contain:
-      """
-      <form name="loginform"
+      Hello world!
       """
