@@ -29,7 +29,7 @@ Feature: Serve WordPress locally
   Scenario: Pretty permalinks
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8183`
-    And I run `wp rewrite structure '/%postname%/'`
+    And I run `wp option update permalink_structure '/%postname%/'`
 
     When I run `curl -sS http://localhost:8183/?p=1`
     Then STDOUT should contain:
