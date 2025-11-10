@@ -97,11 +97,11 @@ class Server_Command extends WP_CLI_Command {
 		if ( ! file_exists( $router_path ) ) {
 			WP_CLI::error( "Couldn't find router.php" );
 		}
-		
+
 		// Build the command with passthrough arguments
 		$cmd_format = '%s';
 		$cmd_args   = array( WP_CLI::get_php_binary() );
-		
+
 		// Add passthrough arguments before the -S flag
 		if ( ! empty( $_ ) ) {
 			foreach ( $_ as $arg ) {
@@ -109,14 +109,14 @@ class Server_Command extends WP_CLI_Command {
 				$cmd_args[]  = $arg;
 			}
 		}
-		
+
 		// Add the server flags
 		$cmd_format .= ' -S %s -t %s -c %s %s';
 		$cmd_args[]  = $assoc_args['host'] . ':' . $assoc_args['port'];
 		$cmd_args[]  = $docroot;
 		$cmd_args[]  = $assoc_args['config'];
 		$cmd_args[]  = Utils\extract_from_phar( $router_path );
-		
+
 		$cmd = Utils\esc_cmd( $cmd_format, ...$cmd_args );
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
