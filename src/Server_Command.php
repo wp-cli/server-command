@@ -70,7 +70,7 @@ class Server_Command extends WP_CLI_Command {
 	 *
 	 * @when before_wp_load
 	 */
-	public function __invoke( $_, $assoc_args ) {
+	public function __invoke( $args, $assoc_args ) {
 		$defaults   = array(
 			'host'    => 'localhost',
 			'port'    => 8080,
@@ -103,8 +103,11 @@ class Server_Command extends WP_CLI_Command {
 		$cmd_args   = array( WP_CLI::get_php_binary() );
 
 		// Add passthrough arguments before the -S flag
-		if ( ! empty( $_ ) ) {
-			foreach ( $_ as $arg ) {
+		if ( ! empty( $args ) ) {
+			foreach ( $args as $arg ) {
+				if ( '--' === $arg ) {
+					continue;
+				}
 				$cmd_format .= ' %s';
 				$cmd_args[]  = $arg;
 			}
