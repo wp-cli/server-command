@@ -107,6 +107,8 @@ add_filter(
 			$url = str_replace( $site_url_host, $_SERVER['HTTP_HOST'], $url );
 		}
 
+		$url = str_replace( 'https://', 'http://', $url );
+
 		return $url;
 	},
 	20
