@@ -30,8 +30,9 @@ Feature: Serve WordPress locally
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8183`
     And I run `wp option update permalink_structure '/%postname%/'`
+    And I run `wp rewrite flush`
 
-    When I run `curl -sS http://localhost:8183/?p=1`
+    When I run `curl -sSL http://localhost:8183/hello-world/`
     Then STDOUT should contain:
       """
       Hello world!
