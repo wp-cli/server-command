@@ -112,6 +112,8 @@ add_filter(
 	20
 );
 
+add_filter( 'got_url_rewrite', '__return_true' );
+
 $_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
 $wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
 // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
