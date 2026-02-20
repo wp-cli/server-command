@@ -69,6 +69,9 @@ class Server_Command extends WP_CLI_Command {
 	 *     Press Ctrl-C to quit.
 	 *
 	 * @when before_wp_load
+	 *
+	 * @param array $args       Positional arguments passed through to the PHP binary.
+	 * @param array $assoc_args Associative arguments passed to the command.
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$defaults   = array(
@@ -104,13 +107,8 @@ class Server_Command extends WP_CLI_Command {
 
 		// Add passthrough arguments before the -S flag
 		if ( ! empty( $args ) ) {
-			foreach ( $args as $arg ) {
-				if ( '--' === $arg ) {
-					continue;
-				}
-				$cmd_format .= ' %s';
-				$cmd_args[]  = $arg;
-			}
+			$cmd_format .= str_repeat( ' %s', count( $args ) );
+			$cmd_args    = array_merge( $cmd_args, $args );
 		}
 
 		// Add the server flags

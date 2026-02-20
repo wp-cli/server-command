@@ -18,7 +18,14 @@ Feature: Serve WordPress locally
 
   Scenario: Passthrough arguments to PHP binary
     Given a WP install
+    And a file "mem.php" with:
+      """
+      <?php echo ini_get('memory_limit'); ?>
+      """
     And I launch in the background `wp server --host=localhost --port=8182 -- -dmemory_limit=256M`
 
-    When I run `curl -sS localhost:8182/wp-admin/install.php`
-    Then the return code should be 0
+    When I run `curl -sS localhost:8182/mem.php`
+    Then STDOUT should be:
+      """
+      256M
+      """
