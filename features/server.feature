@@ -18,7 +18,7 @@ Feature: Serve WordPress locally
 
   Scenario: Passthrough arguments to PHP binary
     Given a WP install
-    And a file "mem.php" with:
+    And a mem.php file:
       """
       <?php echo ini_get('memory_limit'); ?>
       """
