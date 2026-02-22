@@ -107,10 +107,14 @@ add_filter(
 			$url = str_replace( $site_url_host, $_SERVER['HTTP_HOST'], $url );
 		}
 
+		$url = str_replace( 'https://', 'http://', $url );
+
 		return $url;
 	},
 	20
 );
+
+add_filter( 'got_url_rewrite', '__return_true' );
 
 $_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
 $wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
@@ -123,13 +127,24 @@ if ( file_exists( $wpcli_server_root . $wpcli_server_path ) ) {
 		exit;
 	}
 
-	if ( strpos( $wpcli_server_path, '.php' ) !== false ) {
+	// Check if this is a PHP file by examining the extension
+	if ( pathinfo( $wpcli_server_path, PATHINFO_EXTENSION ) === 'php' ) {
+		// Set $_SERVER variables to mimic direct access to the PHP file
+		$_SERVER['SCRIPT_NAME']     = $wpcli_server_path;
+		$_SERVER['PHP_SELF']        = $wpcli_server_path;
+		$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . $wpcli_server_path;
+
 		chdir( dirname( $wpcli_server_root . $wpcli_server_path ) );
 		require_once $wpcli_server_root . $wpcli_server_path;
 	} else {
 		return false;
 	}
 } else {
+	// File doesn't exist - route to index.php for pretty permalinks
+	$_SERVER['SCRIPT_NAME']     = '/index.php';
+	$_SERVER['PHP_SELF']        = '/index.php';
+	$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . '/index.php';
+
 	chdir( $wpcli_server_root );
 	require_once 'index.php';
 }
