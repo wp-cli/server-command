@@ -16,6 +16,20 @@ Feature: Serve WordPress locally
     And I run `cmp /tmp/license.txt license.txt`
     Then STDOUT should be empty
 
+  Scenario: Passthrough arguments to PHP binary
+    Given a WP install
+    And a mem.php file:
+      """
+      <?php echo ini_get('memory_limit'); ?>
+      """
+    And I launch in the background `wp server --host=localhost --port=8182 -- -dmemory_limit=256M`
+
+    When I run `curl -sS localhost:8182/mem.php`
+    Then STDOUT should be:
+      """
+      256M
+      """
+
   Scenario: Access wp-login.php
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8182`
