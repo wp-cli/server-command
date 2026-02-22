@@ -70,8 +70,9 @@ class Server_Command extends WP_CLI_Command {
 	 *
 	 * @when before_wp_load
 	 *
-	 * @param array $args       Positional arguments passed through to the PHP binary.
-	 * @param array $assoc_args Associative arguments passed to the command.
+	 * @param array<string> $args       Positional arguments passed through to the PHP binary.
+	 * @param array{host: string, port: string, docroot?: string, config?: string} $assoc_args Associative arguments passed to the command.
+	 * @return void
 	 */
 	public function __invoke( $args, $assoc_args ) {
 		$defaults   = array(
