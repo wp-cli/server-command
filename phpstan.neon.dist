@@ -8,6 +8,3 @@ parameters:
   scanFiles:
     - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
   treatPhpDocTypesAsCertain: false
-  ignoreErrors:
-    - identifier: missingType.parameter
-    - identifier: missingType.return

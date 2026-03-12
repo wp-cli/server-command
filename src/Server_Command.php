@@ -34,6 +34,10 @@ class Server_Command extends WP_CLI_Command {
 	 * [--config=<file>]
 	 * : Configure the server with a specific .ini file.
 	 *
+	 * [<passthrough>...]
+	 * : Optional arguments to pass to the PHP binary. Any arguments after `--`
+	 * will be passed through to the `php` command.
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Make the instance available on any address (with port 8080)
@@ -57,9 +61,20 @@ class Server_Command extends WP_CLI_Command {
 	 *     Document root is /
 	 *     Press Ctrl-C to quit.
 	 *
+	 *     # Pass extra parameters to the PHP binary
+	 *     $ wp server --docroot=public -- -dzend_extension=xdebug.so
+	 *     PHP 7.4.0 Development Server started at Wed Nov 10 18:00:00 2025
+	 *     Listening on http://localhost:8080
+	 *     Document root is /var/www/public
+	 *     Press Ctrl-C to quit.
+	 *
 	 * @when before_wp_load
+	 *
+	 * @param array<string> $args       Positional arguments passed through to the PHP binary.
+	 * @param array{host: string, port: string, docroot?: string, config?: string} $assoc_args Associative arguments passed to the command.
+	 * @return void
 	 */
-	public function __invoke( $_, $assoc_args ) {
+	public function __invoke( $args, $assoc_args ) {
 		$defaults   = array(
 			'host'    => 'localhost',
 			'port'    => 8080,
@@ -86,14 +101,25 @@ class Server_Command extends WP_CLI_Command {
 		if ( ! file_exists( $router_path ) ) {
 			WP_CLI::error( "Couldn't find router.php" );
 		}
-		$cmd = Utils\esc_cmd(
-			'%s -S %s -t %s -c %s %s',
-			WP_CLI::get_php_binary(),
-			$assoc_args['host'] . ':' . $assoc_args['port'],
-			$docroot,
-			$assoc_args['config'],
-			Utils\extract_from_phar( $router_path )
-		);
+
+		// Build the command with passthrough arguments
+		$cmd_format = '%s';
+		$cmd_args   = array( WP_CLI::get_php_binary() );
+
+		// Add passthrough arguments before the -S flag
+		if ( ! empty( $args ) ) {
+			$cmd_format .= str_repeat( ' %s', count( $args ) );
+			$cmd_args    = array_merge( $cmd_args, $args );
+		}
+
+		// Add the server flags
+		$cmd_format .= ' -S %s -t %s -c %s %s';
+		$cmd_args[]  = $assoc_args['host'] . ':' . $assoc_args['port'];
+		$cmd_args[]  = $docroot;
+		$cmd_args[]  = $assoc_args['config'];
+		$cmd_args[]  = Utils\extract_from_phar( $router_path );
+
+		$cmd = Utils\esc_cmd( $cmd_format, ...$cmd_args );
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
 
