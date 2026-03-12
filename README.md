@@ -10,7 +10,7 @@ Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contr
 ## Using
 
 ~~~
-wp server [--host=<host>] [--port=<port>] [--docroot=<path>] [--config=<file>]
+wp server [--host=<host>] [--port=<port>] [--docroot=<path>] [--config=<file>] [<passthrough>...]
 ~~~
 
 Uses `php -S` to launch a web server serving the WordPress webroot.
@@ -40,6 +40,10 @@ If this is a requirement, please use a more advanced web server.
 	[--config=<file>]
 		Configure the server with a specific .ini file.
 
+	[<passthrough>...]
+		Optional arguments to pass to the PHP binary. Any arguments after `--`
+		will be passed through to the `php` command.
+
 **EXAMPLES**
 
     # Make the instance available on any address (with port 8080)
@@ -61,6 +65,13 @@ If this is a requirement, please use a more advanced web server.
     PHP 7.0.9 Development Server started at Mon Aug 22 12:09:04 2016
     Listening on http://localhost:8080
     Document root is /
+    Press Ctrl-C to quit.
+
+    # Pass extra parameters to the PHP binary
+    $ wp server --docroot=public -- -dzend_extension=xdebug.so
+    PHP 7.4.0 Development Server started at Wed Nov 10 18:00:00 2025
+    Listening on http://localhost:8080
+    Document root is /var/www/public
     Press Ctrl-C to quit.
 
 ## Installing
