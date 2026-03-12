@@ -1,4 +1,4 @@
-@require-php-5.4
+@require-php-7.2
 Feature: Serve WordPress locally
 
   Scenario: Vanilla install
