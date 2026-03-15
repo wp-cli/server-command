@@ -116,6 +116,22 @@ add_filter(
 
 add_filter( 'got_url_rewrite', '__return_true' );
 
+if ( getenv( 'WPCLI_SERVER_ADAPT_SCHEME' ) ) {
+	ob_start(
+		static function ( $buffer ) {
+			if ( ! isset( $GLOBALS['wpcli_server_original_url'] ) ) {
+				return $buffer;
+			}
+			$original_host = _get_full_host( $GLOBALS['wpcli_server_original_url'] );
+			return str_replace(
+				'https://' . $original_host,
+				'http://' . $_SERVER['HTTP_HOST'],
+				$buffer
+			);
+		}
+	);
+}
+
 $_SERVER['SERVER_ADDR'] = gethostbyname( $_SERVER['SERVER_NAME'] );
 $wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
 // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
