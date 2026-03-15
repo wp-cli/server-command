@@ -67,7 +67,7 @@ Feature: Serve WordPress locally
       """
       http://localhost:8184/wp-content/uploads/test.jpg
       """
-    Then STDOUT should not contain:
+    And STDOUT should not contain:
       """
       https://localhost:8184
       """
