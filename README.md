@@ -10,7 +10,7 @@ Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contr
 ## Using
 
 ~~~
-wp server [--host=<host>] [--port=<port>] [--docroot=<path>] [--config=<file>] [<passthrough>...]
+wp server [--host=<host>] [--port=<port>] [--docroot=<path>] [--config=<file>] [--adapt-scheme] [<passthrough>...]
 ~~~
 
 Uses `php -S` to launch a web server serving the WordPress webroot.
@@ -39,6 +39,10 @@ If this is a requirement, please use a more advanced web server.
 
 	[--config=<file>]
 		Configure the server with a specific .ini file.
+
+	[--adapt-scheme]
+		Replace HTTPS URLs matching the original site URL with HTTP in server responses.
+		Useful when the site is configured with HTTPS but the development server runs on HTTP.
 
 	[<passthrough>...]
 		Optional arguments to pass to the PHP binary. Any arguments after `--`
@@ -72,6 +76,13 @@ If this is a requirement, please use a more advanced web server.
     PHP 7.4.0 Development Server started at Wed Nov 10 18:00:00 2025
     Listening on http://localhost:8080
     Document root is /var/www/public
+    Press Ctrl-C to quit.
+
+    # Adapt HTTPS links when the site is configured with HTTPS
+    $ wp server --adapt-scheme
+    PHP 8.0.0 Development Server started at Wed Nov 10 18:00:00 2025
+    Listening on http://localhost:8080
+    Document root is /var/www/html
     Press Ctrl-C to quit.
 
 ## Installing
