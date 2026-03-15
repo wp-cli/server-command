@@ -34,6 +34,10 @@ class Server_Command extends WP_CLI_Command {
 	 * [--config=<file>]
 	 * : Configure the server with a specific .ini file.
 	 *
+	 * [--adapt-scheme]
+	 * : Replace HTTPS URLs matching the original site URL with HTTP in server responses.
+	 * Useful when the site is configured with HTTPS but the development server runs on HTTP.
+	 *
 	 * [<passthrough>...]
 	 * : Optional arguments to pass to the PHP binary. Any arguments after `--`
 	 * will be passed through to the `php` command.
@@ -68,10 +72,17 @@ class Server_Command extends WP_CLI_Command {
 	 *     Document root is /var/www/public
 	 *     Press Ctrl-C to quit.
 	 *
+	 *     # Adapt HTTPS links when the site is configured with HTTPS
+	 *     $ wp server --adapt-scheme
+	 *     PHP 8.0.0 Development Server started at Wed Nov 10 18:00:00 2025
+	 *     Listening on http://localhost:8080
+	 *     Document root is /var/www/html
+	 *     Press Ctrl-C to quit.
+	 *
 	 * @when before_wp_load
 	 *
 	 * @param array<string> $args       Positional arguments passed through to the PHP binary.
-	 * @param array{host: string, port: string, docroot?: string, config?: string} $assoc_args Associative arguments passed to the command.
+	 * @param array{host: string, port: string, docroot?: string, config?: string, 'adapt-scheme'?: bool} $assoc_args Associative arguments passed to the command.
 	 * @return void
 	 */
 	public function __invoke( $args, $assoc_args ) {
@@ -122,6 +133,10 @@ class Server_Command extends WP_CLI_Command {
 		$cmd = Utils\esc_cmd( $cmd_format, ...$cmd_args );
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
+
+		if ( Utils\get_flag_value( $assoc_args, 'adapt-scheme', false ) ) { // @phpstan-ignore argument.type
+			putenv( 'WPCLI_SERVER_ADAPT_SCHEME=1' );
+		}
 
 		// https://bugs.php.net/bug.php?id=60181
 		$options = array();

@@ -51,3 +51,23 @@ Feature: Serve WordPress locally
       """
       Hello world!
       """
+
+  Scenario: Adapt HTTPS scheme to HTTP
+    Given a WP install
+    And a wp-content/mu-plugins/test-https-url.php file:
+      """
+      <?php add_filter( 'wp_head', function() { echo '<meta name="test-https" content="https://localhost:8184/wp-content/uploads/test.jpg">'; } );
+      """
+    And I run `wp option update home https://localhost:8184`
+    And I run `wp option update siteurl https://localhost:8184`
+    And I launch in the background `wp server --host=localhost --port=8184 --adapt-scheme`
+
+    When I run `curl -sS localhost:8184`
+    Then STDOUT should contain:
+      """
+      http://localhost:8184/wp-content/uploads/test.jpg
+      """
+    And STDOUT should not contain:
+      """
+      https://localhost:8184
+      """
