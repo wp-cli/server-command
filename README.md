@@ -3,7 +3,7 @@ wp-cli/server-command
 
 Launches PHP's built-in web server for a specific WordPress installation.
 
-[![Testing](https://github.com/wp-cli/server-command/actions/workflows/testing.yml/badge.svg)](https://github.com/wp-cli/server-command/actions/workflows/testing.yml)
+[![Testing](https://github.com/wp-cli/server-command/actions/workflows/testing.yml/badge.svg)](https://github.com/wp-cli/server-command/actions/workflows/testing.yml) [![Code Coverage](https://codecov.io/gh/wp-cli/server-command/branch/main/graph/badge.svg)](https://codecov.io/gh/wp-cli/server-command/tree/main)
 
 Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contributing) | [Support](#support)
 
