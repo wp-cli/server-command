@@ -32,9 +32,9 @@ Feature: Serve WordPress locally
 
   Scenario: Access wp-login.php
     Given a WP install
-    And I launch in the background `wp server --host=localhost --port=8182`
+    And I launch in the background `wp server --host=localhost --port=8185`
 
-    When I run `curl -sS http://localhost:8182/wp-login.php`
+    When I run `curl -sS http://localhost:8185/wp-login.php`
     Then STDOUT should contain:
       """
       wp-login.php
