@@ -12,7 +12,7 @@ Feature: Serve WordPress locally
       Just another WordPress site
       """
 
-    When I run `curl -sS localhost:8181/license.txt`
+    When I run `curl -sSL http://localhost:8181/license.txt`
     Then STDOUT should contain:
       """
       WordPress - Web publishing software
