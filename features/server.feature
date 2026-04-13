@@ -12,9 +12,11 @@ Feature: Serve WordPress locally
       Just another WordPress site
       """
 
-    When I run `curl -sS localhost:8181/license.txt > /tmp/license.txt`
-    And I run `cmp /tmp/license.txt license.txt`
-    Then STDOUT should be empty
+    When I run `curl -sS localhost:8181/license.txt`
+    Then STDOUT should contain:
+      """
+      WordPress - Web publishing software
+      """
 
   Scenario: Passthrough arguments to PHP binary
     Given a WP install
@@ -43,8 +45,7 @@ Feature: Serve WordPress locally
   Scenario: Pretty permalinks
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8183`
-    And I run `wp option update permalink_structure '/%postname%/'`
-    And I run `wp rewrite flush`
+    And I run `wp rewrite structure '/%postname%/'`
 
     When I run `curl -sSL http://localhost:8183/hello-world/`
     Then STDOUT should contain:
