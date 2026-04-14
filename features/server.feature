@@ -47,6 +47,12 @@ Feature: Serve WordPress locally
     And I launch in the background `wp server --host=localhost --port=8183`
     And I run `wp rewrite structure '/%postname%/'`
 
+    When I run `wp rewrite list`
+    Then STDOUT should contain:
+      """
+      FORCE_FAIL_TO_SEE_RULES
+      """
+
     When I run `curl -sSL http://localhost:8183/hello-world/`
     Then STDOUT should contain:
       """
