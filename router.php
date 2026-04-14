@@ -137,21 +137,25 @@ $wpcli_server_root      = $_SERVER['DOCUMENT_ROOT'];
 // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
 $wpcli_server_path = '/' . ltrim( parse_url( urldecode( $_SERVER['REQUEST_URI'] ) )['path'], '/' );
 
-if ( file_exists( $wpcli_server_root . $wpcli_server_path ) ) {
-	if ( is_dir( $wpcli_server_root . $wpcli_server_path ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
+$wpcli_server_file = $wpcli_server_root . $wpcli_server_path;
+// Normalize slashes for file operations
+$wpcli_server_file = str_replace( array( '/', '\\' ), DIRECTORY_SEPARATOR, $wpcli_server_file );
+
+if ( file_exists( $wpcli_server_file ) ) {
+	if ( is_dir( $wpcli_server_file ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
 		header( "Location: $wpcli_server_path/" );
 		exit;
 	}
 
 	// Check if this is a PHP file by examining the extension
-	if ( pathinfo( $wpcli_server_path, PATHINFO_EXTENSION ) === 'php' ) {
+	if ( pathinfo( $wpcli_server_file, PATHINFO_EXTENSION ) === 'php' ) {
 		// Set $_SERVER variables to mimic direct access to the PHP file
 		$_SERVER['SCRIPT_NAME']     = $wpcli_server_path;
 		$_SERVER['PHP_SELF']        = $wpcli_server_path;
-		$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . $wpcli_server_path;
+		$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_file;
 
-		chdir( dirname( $wpcli_server_root . $wpcli_server_path ) );
-		require_once $wpcli_server_root . $wpcli_server_path;
+		chdir( dirname( $wpcli_server_file ) );
+		require_once $wpcli_server_file;
 	} else {
 		return false;
 	}
@@ -159,7 +163,8 @@ if ( file_exists( $wpcli_server_root . $wpcli_server_path ) ) {
 	// File doesn't exist - route to index.php for pretty permalinks
 	$_SERVER['SCRIPT_NAME']     = '/index.php';
 	$_SERVER['PHP_SELF']        = '/index.php';
-	$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . '/index.php';
+	$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . DIRECTORY_SEPARATOR . 'index.php';
+	$_SERVER['PATH_INFO']       = $wpcli_server_path; // Help WordPress parse request
 
 	chdir( $wpcli_server_root );
 	require_once 'index.php';
