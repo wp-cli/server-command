@@ -45,7 +45,7 @@ Feature: Serve WordPress locally
   Scenario: Pretty permalinks
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8183`
-    And I run `wp rewrite structure "/%postname%/"`
+    And I run `wp rewrite structure "%postname%/"`
 
     When I run `wp rewrite list`
     Then STDOUT should contain:
