@@ -178,18 +178,6 @@ if ( file_exists( $wpcli_server_file ) ) {
 	$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . DIRECTORY_SEPARATOR . 'index.php';
 	$_SERVER['PATH_INFO']       = $wpcli_server_path; // Help WordPress parse request
 
-	if ( str_contains( $_SERVER['REQUEST_URI'], 'hello-world' ) ) {
-		header( 'Content-Type: application/json' );
-		echo json_encode(
-			array(
-				'SERVER'            => $_SERVER,
-				'wpcli_server_path' => $wpcli_server_path,
-				'wpcli_server_file' => $wpcli_server_file,
-			)
-		);
-		exit;
-	}
-
 	chdir( $wpcli_server_root );
 	require_once 'index.php';
 }
