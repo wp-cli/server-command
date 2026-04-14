@@ -45,6 +45,7 @@ Feature: Serve WordPress locally
   Scenario: Pretty permalinks
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8183`
+    # No leading slash for Windows compatibility on CI.
     And I run `wp rewrite structure "%postname%/"`
 
     When I run `curl -sSL http://localhost:8183/hello-world/`

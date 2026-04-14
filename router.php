@@ -141,18 +141,6 @@ $wpcli_server_file = $wpcli_server_root . $wpcli_server_path;
 // Normalize slashes for file operations
 $wpcli_server_file = str_replace( array( '/', '\\' ), DIRECTORY_SEPARATOR, $wpcli_server_file );
 
-if ( $wpcli_server_path === '/__debug' ) {
-	header( 'Content-Type: application/json' );
-	echo json_encode(
-		array(
-			'SERVER'            => $_SERVER,
-			'wpcli_server_path' => $wpcli_server_path,
-			'wpcli_server_file' => $wpcli_server_file,
-		)
-	);
-	exit;
-}
-
 if ( file_exists( $wpcli_server_file ) ) {
 	if ( is_dir( $wpcli_server_file ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
 		header( "Location: $wpcli_server_path/" );
