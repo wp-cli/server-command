@@ -73,3 +73,33 @@ Feature: Serve WordPress locally
       """
       https://localhost:8184
       """
+
+  Scenario: Prevent path traversal outside document root
+    Given a WP install
+    And I launch in the background `wp server --host=localhost --port=8186`
+
+    When I run `curl -sS --path-as-is http://localhost:8186/%2e%2e/`
+    Then STDOUT should contain:
+      """
+      Just another WordPress site
+      """
+
+  Scenario: Prevent execution of non-PHP extensions
+    Given a WP install
+    And a wp-content/uploads/evil.php_.gif file:
+      """
+      GIF89a;
+      <?php echo "FAIL_EXECUTION"; ?>
+      """
+    And I launch in the background `wp server --host=localhost --port=8187`
+
+    When I run `curl -sS http://localhost:8187/wp-content/uploads/evil.php_.gif`
+    Then STDOUT should contain:
+      """
+      GIF89a;
+      <?php echo "FAIL_EXECUTION"; ?>
+      """
+    And STDOUT should not contain:
+      """
+      FAIL_EXECUTION
+      """

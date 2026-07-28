@@ -141,26 +141,36 @@ $wpcli_server_file = $wpcli_server_root . $wpcli_server_path;
 // Normalize slashes for file operations
 $wpcli_server_file = str_replace( array( '/', '\\' ), DIRECTORY_SEPARATOR, $wpcli_server_file );
 
-if ( file_exists( $wpcli_server_file ) ) {
-	if ( is_dir( $wpcli_server_file ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
+$wpcli_server_real_root = realpath( $wpcli_server_root );
+$wpcli_server_real_file = file_exists( $wpcli_server_file ) ? realpath( $wpcli_server_file ) : false;
+
+$wpcli_server_is_inside_root = false;
+if ( false !== $wpcli_server_real_root && false !== $wpcli_server_real_file ) {
+	if ( $wpcli_server_real_file === $wpcli_server_real_root || 0 === strpos( $wpcli_server_real_file, rtrim( $wpcli_server_real_root, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR ) ) {
+		$wpcli_server_is_inside_root = true;
+	}
+}
+
+if ( $wpcli_server_is_inside_root ) {
+	if ( is_dir( $wpcli_server_real_file ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
 		header( "Location: $wpcli_server_path/" );
 		exit;
 	}
 
 	// Check if this is a PHP file by examining the extension
-	if ( pathinfo( $wpcli_server_file, PATHINFO_EXTENSION ) === 'php' ) {
+	if ( 'php' === strtolower( pathinfo( $wpcli_server_real_file, PATHINFO_EXTENSION ) ) ) {
 		// Set $_SERVER variables to mimic direct access to the PHP file
 		$_SERVER['SCRIPT_NAME']     = $wpcli_server_path;
 		$_SERVER['PHP_SELF']        = $wpcli_server_path;
-		$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_file;
+		$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_real_file;
 
-		chdir( dirname( $wpcli_server_file ) );
-		require_once $wpcli_server_file;
+		chdir( dirname( $wpcli_server_real_file ) );
+		require_once $wpcli_server_real_file;
 	} else {
 		return false;
 	}
 } else {
-	// File doesn't exist - route to index.php for pretty permalinks
+	// File doesn't exist or is outside document root - route to index.php for pretty permalinks
 	$_SERVER['SCRIPT_NAME']     = '/index.php';
 	$_SERVER['PHP_SELF']        = '/index.php';
 	$_SERVER['SCRIPT_FILENAME'] = $wpcli_server_root . DIRECTORY_SEPARATOR . 'index.php';
