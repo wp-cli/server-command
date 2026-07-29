@@ -84,6 +84,12 @@ Feature: Serve WordPress locally
       Just another WordPress site
       """
 
+    When I run `curl -sS --path-as-is http://localhost:8186/..%2f`
+    Then STDOUT should contain:
+      """
+      Just another WordPress site
+      """
+
   Scenario: Prevent execution of non-PHP extensions
     Given a WP install
     And a wp-content/uploads/evil.php_.gif file:
