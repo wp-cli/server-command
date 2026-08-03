@@ -95,7 +95,7 @@ Feature: Serve WordPress locally
     And a wp-content/uploads/evil.php_.gif file:
       """
       GIF89a;
-      <?php echo "FAIL_EXECUTION"; ?>
+      <?php echo 1337 + 1; ?>
       """
     And I launch in the background `wp server --host=localhost --port=8187`
 
@@ -103,9 +103,9 @@ Feature: Serve WordPress locally
     Then STDOUT should contain:
       """
       GIF89a;
-      <?php echo "FAIL_EXECUTION"; ?>
+      <?php echo 1337 + 1; ?>
       """
     And STDOUT should not contain:
       """
-      FAIL_EXECUTION
+      1338
       """
