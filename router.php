@@ -152,6 +152,7 @@ if ( false !== $wpcli_server_real_root && false !== $wpcli_server_real_file ) {
 }
 
 if ( $wpcli_server_is_inside_root ) {
+	if ( is_dir( $wpcli_server_real_file ) && substr( $wpcli_server_path, -1 ) !== '/' ) {
 		header( 'Location: ' . str_replace( array( "\r", "\n" ), '', $wpcli_server_path ) . '/' );
 		exit;
 	}
