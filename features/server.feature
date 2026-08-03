@@ -78,16 +78,16 @@ Feature: Serve WordPress locally
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8186`
 
-    When I run `curl -sS --path-as-is http://localhost:8186/%2e%2e/`
+    When I run `curl -sSL --path-as-is http://localhost:8186/%2e%2e/`
     Then STDOUT should contain:
       """
-      Just another WordPress site
+      WP CLI Site
       """
 
-    When I run `curl -sS --path-as-is http://localhost:8186/..%2f`
+    When I run `curl -sSL --path-as-is http://localhost:8186/..%2f`
     Then STDOUT should contain:
       """
-      Just another WordPress site
+      WP CLI Site
       """
 
   Scenario: Prevent execution of non-PHP extensions
