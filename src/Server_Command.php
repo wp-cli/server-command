@@ -125,17 +125,23 @@ class Server_Command extends WP_CLI_Command {
 		}
 
 		// Add the server flags
-		$cmd_format .= ' -S %s -t %s -c %s %s';
+		$cmd_format .= ' -S %s -t %s';
 		$cmd_args[]  = $assoc_args['host'] . ':' . $assoc_args['port'];
-		$cmd_args[]  = $docroot;
-		$cmd_args[]  = $assoc_args['config'];
+		$cmd_args[]  = (string) $docroot;
+
+		if ( ! empty( $assoc_args['config'] ) && is_string( $assoc_args['config'] ) ) {
+			$cmd_format .= ' -c %s';
+			$cmd_args[]  = $assoc_args['config'];
+		}
+
+		$cmd_format .= ' %s';
 		$cmd_args[]  = Utils\extract_from_phar( $router_path );
 
 		$cmd = Utils\esc_cmd( $cmd_format, ...$cmd_args );
 
 		$descriptors = array( STDIN, STDOUT, STDERR );
 
-		if ( Utils\get_flag_value( $assoc_args, 'adapt-scheme', false ) ) { // @phpstan-ignore argument.type
+		if ( Utils\get_flag_value( $assoc_args, 'adapt-scheme', false ) ) {
 			putenv( 'WPCLI_SERVER_ADAPT_SCHEME=1' );
 		}
 

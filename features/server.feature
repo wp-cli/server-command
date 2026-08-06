@@ -32,6 +32,24 @@ Feature: Serve WordPress locally
       256M
       """
 
+  Scenario: Custom ini configuration
+    Given a WP install
+    And a mem.php file:
+      """
+      <?php echo ini_get('memory_limit'); ?>
+      """
+    And a custom.ini file:
+      """
+      memory_limit = 512M
+      """
+    And I launch in the background `wp server --host=localhost --port=8188 --config=custom.ini`
+
+    When I run `curl -sS localhost:8188/mem.php`
+    Then STDOUT should be:
+      """
+      512M
+      """
+
   Scenario: Access wp-login.php
     Given a WP install
     And I launch in the background `wp server --host=localhost --port=8185`
