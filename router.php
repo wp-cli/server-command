@@ -29,7 +29,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * `WP_CLI::add_wp_hook()` either, as this file is executed by PHP's built-in
  * web server in a separate process where WP-CLI is not loaded.
  */
-function _wp_filter_build_unique_id( $tag, $callback, $priority ) {
+function _wp_filter_build_unique_id( $tag, $callback, $priority ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- $priority retained to match core's _wp_filter_build_unique_id() signature.
 	if ( is_string( $callback ) ) {
 		return $callback;
 	}
