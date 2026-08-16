@@ -25,49 +25,33 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
 /**
  * This is a copy of WordPress's _wp_filter_build_unique_id() function.
  *
- * We duplicate it because WordPress is not loaded yet.
+ * We duplicate it because WordPress is not loaded yet. It cannot use
+ * `WP_CLI::add_wp_hook()` either, as this file is executed by PHP's built-in
+ * web server in a separate process where WP-CLI is not loaded.
  */
 function _wp_filter_build_unique_id( $tag, $callback, $priority ) {
-	global $wp_filter;
-	static $filter_id_count = 0;
-
 	if ( is_string( $callback ) ) {
 		return $callback;
 	}
 
 	if ( is_object( $callback ) ) {
 		// Closures are currently implemented as objects
-		$callback = array( $callback, '' );
-	} else {
-		$callback = (array) $callback;
+		return (string) spl_object_id( $callback );
+	}
+
+	if ( ! isset( $callback[1] ) || ! is_string( $callback[1] ) ) {
+		return null;
 	}
 
 	if ( is_object( $callback[0] ) ) {
 		// Object Class Calling
-		if ( function_exists( 'spl_object_hash' ) ) {
-			return spl_object_hash( $callback[0] ) . $callback[1];
-		} else {
-			$obj_idx = get_class( $callback[0] ) . $callback[1];
-			if ( ! isset( $callback[0]->wp_filter_id ) ) {
-				if ( false === $priority ) {
-					return false;
-				}
-				$obj_idx .= isset( $wp_filter[ $tag ][ $priority ] )
-					? count( (array) $wp_filter[ $tag ][ $priority ] )
-					: $filter_id_count;
-
-				$callback[0]->wp_filter_id = $filter_id_count;
-				++$filter_id_count;
-			} else {
-				$obj_idx .= $callback[0]->wp_filter_id;
-			}
-
-			return $obj_idx;
-		}
+		return ( (string) spl_object_id( $callback[0] ) ) . $callback[1];
 	} elseif ( is_string( $callback[0] ) ) {
 		// Static Calling
 		return $callback[0] . '::' . $callback[1];
 	}
+
+	return null;
 }
 
 function _get_full_host( $url ) {
