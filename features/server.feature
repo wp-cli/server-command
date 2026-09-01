@@ -22,7 +22,7 @@ Feature: Serve WordPress locally
     Given a WP install
     And a mem.php file:
       """
-      <?php echo ini_get('memory_limit'); ?>
+      <?php echo ini_get( 'memory_limit' );
       """
     And I launch in the background `wp server --host=localhost --port=8182 -- -dmemory_limit=256M`
 
@@ -36,7 +36,7 @@ Feature: Serve WordPress locally
     Given a WP install
     And a mem.php file:
       """
-      <?php echo ini_get('memory_limit'); ?>
+      <?php echo ini_get( 'memory_limit' );
       """
     And a custom.ini file:
       """
@@ -76,7 +76,12 @@ Feature: Serve WordPress locally
     Given a WP install
     And a wp-content/mu-plugins/test-https-url.php file:
       """
-      <?php add_filter( 'wp_head', function() { echo '<meta name="test-https" content="https://localhost:8184/wp-content/uploads/test.jpg">'; } );
+      <?php add_filter(
+          'wp_head',
+          function () {
+              echo '<meta name="test-https" content="https://localhost:8184/wp-content/uploads/test.jpg">';
+          }
+      );
       """
     And I run `wp option update home https://localhost:8184`
     And I run `wp option update siteurl https://localhost:8184`
