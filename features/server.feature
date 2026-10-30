@@ -83,8 +83,10 @@ Feature: Serve WordPress locally
           }
       );
       """
-    And I run `wp option update home https://localhost:8184`
-    And I run `wp option update siteurl https://localhost:8184`
+    And these options:
+      | name    | value                  |
+      | home    | https://localhost:8184 |
+      | siteurl | https://localhost:8184 |
     And I launch in the background `wp server --host=localhost --port=8184 --adapt-scheme`
 
     When I run `curl -sS localhost:8184`
