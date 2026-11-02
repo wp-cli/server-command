@@ -132,3 +132,23 @@ Feature: Serve WordPress locally
       """
       1338
       """
+
+  Scenario: Respond with a 404 for a missing file in a directory without an index.php
+    Given an empty directory
+    And a static.txt file:
+      """
+      Static content
+      """
+    And I launch in the background `wp server --host=localhost --port=8189 --docroot=.`
+
+    When I run `curl -sS http://localhost:8189/static.txt`
+    Then STDOUT should contain:
+      """
+      Static content
+      """
+
+    When I run `curl -sS -o /dev/null -w '%{http_code}' http://localhost:8189/missing.zip`
+    Then STDOUT should be:
+      """
+      404
+      """
