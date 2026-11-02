@@ -153,6 +153,9 @@ if ( $wpcli_server_is_inside_root ) {
 	} else {
 		return false;
 	}
+} elseif ( ! is_file( $wpcli_server_root . DIRECTORY_SEPARATOR . 'index.php' ) ) {
+	// Without an index.php to route to, let the built-in web server respond with a 404.
+	return false;
 } else {
 	// File doesn't exist or is outside document root - route to index.php for pretty permalinks
 	$_SERVER['SCRIPT_NAME']     = '/index.php';
