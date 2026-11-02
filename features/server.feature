@@ -139,15 +139,15 @@ Feature: Serve WordPress locally
       """
       Static content
       """
-    And I launch in the background `wp server --host=localhost --port=8188 --docroot=.`
+    And I launch in the background `wp server --host=localhost --port=8189 --docroot=.`
 
-    When I run `curl -sS http://localhost:8188/static.txt`
+    When I run `curl -sS http://localhost:8189/static.txt`
     Then STDOUT should contain:
       """
       Static content
       """
 
-    When I run `curl -sS -o /dev/null -w '%{http_code}' http://localhost:8188/missing.zip`
+    When I run `curl -sS -o /dev/null -w '%{http_code}' http://localhost:8189/missing.zip`
     Then STDOUT should be:
       """
       404
